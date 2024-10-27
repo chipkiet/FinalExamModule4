@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chỉnh sửa đơn hàng</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="container mt-4">
+    <h1>Chỉnh sửa đơn hàng</h1>
+
+    <!-- Hiển thị thông báo lỗi nếu có -->
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
+
+    <!-- Form chỉnh sửa đơn hàng -->
+    <form th:action="@{/orders/update}" th:object="${order}" method="post">
+        <input type="hidden" th:field="*{maDonHang}"/>
+
+        <div class="form-group">
+            <label for="loaiSp">Loại sản phẩm:</label>
+            <input type="text" id="loaiSp" th:field="${order.sanPham.loaiSanPham.tenLoaiSp}" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="tenSp">Tên sản phẩm:</label>
+            <input type="text" id="tenSp" th:field="*{sanPham.tenSp}" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="ngayMua">Ngày mua:</label>
+            <input type="date" id="ngayMua" th:field="*{ngayMua}" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="soLuong">Số lượng:</label>
+            <input type="number" id="soLuong" th:field="*{soLuong}" class="form-control" required min="1"/>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <a th:href="@{/orders}" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

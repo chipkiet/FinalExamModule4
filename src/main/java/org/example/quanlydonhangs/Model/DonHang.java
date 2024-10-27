@@ -2,6 +2,7 @@ package org.example.quanlydonhangs.Model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,7 +14,7 @@ public class DonHang {
     private Long maDonHang;
 
     @Column(name = "ngay_mua", nullable = false)
-    private LocalDateTime ngayMua;
+    private LocalDate ngayMua;
 
     @Column(name = "so_luong", nullable = false)
     private int soLuong;
@@ -32,11 +33,11 @@ public class DonHang {
         this.maDonHang = maDonHang;
     }
 
-    public LocalDateTime getNgayMua() {
+    public LocalDate getNgayMua() {
         return ngayMua;
     }
 
-    public void setNgayMua(LocalDateTime ngayMua) {
+    public void setNgayMua(LocalDate ngayMua) {
         this.ngayMua = ngayMua;
     }
 
@@ -59,5 +60,9 @@ public class DonHang {
 
     public double getTongTien() {
         return this.sanPham.getGiaSp() * this.soLuong;
+    }
+
+    public void setTongTien(double tongTien) {
+        this.sanPham.setGiaSp(tongTien);
     }
 }
