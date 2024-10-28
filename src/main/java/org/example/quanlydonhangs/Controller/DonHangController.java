@@ -3,6 +3,9 @@ package org.example.quanlydonhangs.Controller;
 import org.example.quanlydonhangs.Model.DonHang;
 import org.example.quanlydonhangs.Service.DonHangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,8 +27,11 @@ public class DonHangController {
     private DonHangService donHangService;
 
     @GetMapping("/orders")
-    public String hienThiDonHang(Model model) {
-        List<DonHang> orders = donHangService.layTatCaDonHang();
+    public String hienThiDonHang(@RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "5") int size,
+                                Model model) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<DonHang> orders = donHangService.layTatCaDonHang(pageable);
         model.addAttribute("orders", orders);
         return "donhang";
     }
@@ -34,10 +40,13 @@ public class DonHangController {
     public String locDonHangTheoNgay(
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
             Model model
     ) {
         try {
-            List<DonHang> orders = donHangService.layDonHangTheoNgay(startDate, endDate);
+            Pageable pageable = PageRequest.of(page, size);
+            Page<DonHang> orders = donHangService.layDonHangTheoNgay(startDate, endDate, pageable);
             model.addAttribute("orders", orders);
         } catch (Exception e) {
             model.addAttribute("error", "Đã xảy ra lỗi: " + e.getMessage());
@@ -48,11 +57,13 @@ public class DonHangController {
 
     @GetMapping("/orders/top")
     public String hienThiTopDonHang(
-            @RequestParam("topCount") int topCount,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             Model model
     ) {
         try {
-            List<DonHang> topOrders = donHangService.layTopDonHang(topCount);
+            Pageable pageable = PageRequest.of(page, size);
+            Page<DonHang> topOrders = donHangService.layTopDonHang(pageable);
             model.addAttribute("orders", topOrders);
         } catch (Exception e) {
             model.addAttribute("error", "Đã xảy ra lỗi: " + e.getMessage());

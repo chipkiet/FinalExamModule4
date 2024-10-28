@@ -81,6 +81,18 @@
         </tr>
         </tbody>
     </table>
+
+    <div>
+        <ul class="pagination">
+            <li class="page-item" th:if="${orders.hasPrevious()}">
+                <a class="page-link" th:href="@{/orders(page=${orders.number - 1}, size=${orders.size})}">Previous</a>
+            </li>
+            <li class="page-item" th:if="${orders.hasNext()}">
+                <a class="page-link" th:href="@{/orders(page=${orders.number + 1}, size=${orders.size})}">Next</a>
+            </li>
+        </ul>
+    </div>
+    <p>Page <span th:text="${orders.number + 1}"></span> of <span th:text="${orders.totalPages}"></span></p>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
